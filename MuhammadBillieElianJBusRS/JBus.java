@@ -9,27 +9,59 @@ package MuhammadBillieElianJBusRS;
  */
 public class JBus
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class JBus
-     */
-    public JBus()
-    {
-        // initialise instance variables
-        x = 0;
+    public static void main (String [] args){
+        
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    
+    public static int getBusId(){
+        return 0;
+    }
+    
+    public static String getBusName(){
+        return "Bus";
+    }
+    
+    public static boolean isDiscount (){
+        return true;
+    }
+    
+    public static float getDiscountedPrice(int price, float discountPercentage){
+        float harga;
+        harga = (float)price * discountPercentage;
+        return harga;
+    }
+    
+    public static float getDiscountPercentage(int beforeDiscount, int afterDiscount){
+        float temp;
+        if (afterDiscount == beforeDiscount){
+            return 0.0f;
+        }
+        else if (beforeDiscount < afterDiscount){
+            return 0.0f;
+        }else {
+            temp = 100-(((float)afterDiscount/beforeDiscount)*100);
+            return temp;
+        }
+    }
+    
+    public static int getOriginalPrice(int discountedPrice, float discountPercentage){
+        float hasil;
+        hasil = (100/(100-discountPercentage))*discountedPrice;
+        return (int)hasil;
+    }
+    
+    public static float getAdminFeePercentage(){
+        return 0.05f;
+    }
+    
+    public static int getAdminFee(int price){
+        return (int)((float)price*getAdminFeePercentage());
+    }
+    
+    public static int getTotalPrice(int price, int numberOfSeat){
+        int temp;
+        temp = (int)((float)(price*numberOfSeat)+getAdminFeePercentage());
+        return temp;
+        
     }
 }
