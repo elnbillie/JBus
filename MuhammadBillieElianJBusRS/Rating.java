@@ -19,19 +19,19 @@ class Rating {
     public void insert(int rating){
         //long temp_total;
         //temp_total=this.total+rating;
-        total=total+rating;
-        count=count+1;
+        this.total=this.total+rating;
+        this.count=this.count+1;
     }   
     
     public double getAverage(){
-        return total/count;
+        return this.total/this.count;
     }
     
     public long getCount(){
-        return count;
+        return this.count;
     }
     
     public long getTotal(){
-        return total;
+        return this.total;
     }
 }
