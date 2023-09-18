@@ -9,7 +9,9 @@ package MuhammadBillieElianJBusRS;
 
 public class JBus
 {
-    public static void main (String [] args){
+    
+    public static void main(String[] args) {
+    /*public static void main (String [] args){
         Bus testBus = createBus();
         System.out.println(testBus.name);
         System.out.println(testBus.facility);
@@ -76,4 +78,5 @@ public class JBus
         return temp;
         
     }*/
+}
 }

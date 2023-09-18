@@ -7,7 +7,7 @@ package MuhammadBillieElianJBusRS;
  * @author (your name here)
  * @version (version number or date here)
  */
-enum Facility{
+public enum Facility{
         AC,
         LUNCH,
         TOILET,

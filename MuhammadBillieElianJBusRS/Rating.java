@@ -7,7 +7,7 @@ package MuhammadBillieElianJBusRS;
  * @author (your name)
  * @version (a version number or a date)
  */
-class Rating {
+public class Rating {
     private long count;
     private long total;
 
@@ -17,8 +17,6 @@ class Rating {
     }
     
     public void insert(int rating){
-        //long temp_total;
-        //temp_total=this.total+rating;
         this.total=this.total+rating;
         this.count=this.count+1;
     }   

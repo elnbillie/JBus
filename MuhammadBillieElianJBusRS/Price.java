@@ -7,12 +7,28 @@ package MuhammadBillieElianJBusRS;
  * @author (your name)
  * @version (a version number or a date)
  */
-class Price{
+public class Price{
     double rebate;
     double price;
-    int discount;
-
+    
+    public Price (double rebate, double price){
+        this.rebate=rebate;
+        this.price=price;
+    }
     public Price(double price){
+        this.price=price;
+    }
+    
+    
+    
+    
+    
+    
+    
+    //int discount;
+    
+
+    /*public Price(double price){
         this.price = price;
         this.discount = 0;
         this.rebate = 0;
@@ -52,5 +68,5 @@ class Price{
         }else{
             return price;
         }
-    }
+    }*/
 }
