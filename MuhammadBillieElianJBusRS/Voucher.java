@@ -7,16 +7,17 @@ package MuhammadBillieElianJBusRS;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Voucher
+public class Voucher extends Serializable
 {
-    String name;
+    public String name;
     private boolean used;
-    double minimum;
-    double cut;
-    int code;
-    Type type;
+    public double minimum;
+    public double cut;
+    public int code;
+    public Type type;
     
-    public Voucher(String name, int code, Type type, double minimum, double cut){
+    public Voucher(int id, String name, int code, Type type, double minimum, double cut){
+        super(id);
         this.name=name;
         this.code=code;
         this.type=type;
@@ -26,12 +27,11 @@ public class Voucher
     }
     
     public double apply(Price price){
-        double harga;
-        harga = price.price;
+        used = true;
         if(type == Type.DISCOUNT ){
-            return harga - (harga*cut/100) ;
+            return price.price - (price.price*cut/100) ;
         }else{
-            return harga-price.rebate;
+            return price.price-cut;
         }
     }
     

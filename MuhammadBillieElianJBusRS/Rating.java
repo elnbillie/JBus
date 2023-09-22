@@ -12,8 +12,8 @@ public class Rating {
     private long total;
 
     public Rating(){
-        this.total = 0;
-        this.count = 0;
+        total = 0;
+        count = 0;
     }
     
     public void insert(int rating){

@@ -8,8 +8,8 @@ package MuhammadBillieElianJBusRS;
  * @version (a version number or a date)
  */
 public class Price{
-    double rebate;
-    double price;
+    public double rebate;
+    public double price;
     
     public Price (double rebate, double price){
         this.rebate=rebate;
@@ -18,7 +18,6 @@ public class Price{
     public Price(double price){
         this.price=price;
     }
-    
     
     
     
