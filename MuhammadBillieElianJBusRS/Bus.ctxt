@@ -1,6 +1,7 @@
 #BlueJ class context
 comment0.target=Bus
-comment1.params=id\ name\ facility\ price\ capacity
-comment1.target=Bus(int,\ java.lang.String,\ Facility,\ Price,\ int)
-comment1.text=public\ Bus(String\ name,\ Facility\ facility,Price\ price,int\ capacity){\r\n\ \ \ \ \ \ \ \ this.name\=name;\r\n\ \ \ \ \ \ \ \ this.facility\=facility;\r\n\ \ \ \ \ \ \ \ this.price\=price;\r\n\ \ \ \ \ \ \ \ this.capacity\=capacity;\r\n}
-numComments=2
+comment1.params=id\ name\ facility\ price\ capacity\ busType\ city\ departure\ arrival
+comment1.target=Bus(int,\ java.lang.String,\ Facility,\ Price,\ int,\ BusType,\ City,\ Station,\ Station)
+comment2.params=
+comment2.target=java.lang.String\ toString()
+numComments=3

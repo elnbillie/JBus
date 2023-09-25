@@ -2,11 +2,10 @@
 comment0.target=Payment
 comment1.params=id\ buyerId\ renterId\ time\ busId\ departureDate\ busSeat
 comment1.target=Payment(int,\ int,\ int,\ java.lang.String,\ int,\ java.lang.String,\ java.lang.String)
-comment1.text=public\ Payment(int\ id,\ int\ buyerId,\ int\ renterId,\ String\ time,\ int\ busId,\ String\ departureDate,\ String\ busSeat){\r\n\ \ \ \ super(id,buyerId,renterId,time);\r\n\ \ \ \ this.renterId\=renterId;\r\n\ \ \ \ this.time\=time;\r\n\ \ \ \ this.busId\=busId;\r\n\ \ \ \ this.departureDate\ \=\ departureDate;\r\n\ \ \ \ this.busSeat\ \=\ busSeat;\r\n\ \ \ \ }\r\n\ \ \ \ \r\n\ \ \ \ public\ Payment(int\ id,\ Account\ buyer,\ Renter\ renter,\ String\ time,\ int\ busId,String\ departureDate,\ String\ busSeat){\r\n\ \ \ \ super(id,buyerId,renterId,time);\r\n\ \ \ \ this.buyerId\ \=\ buyer.id;\r\n\ \ \ \ this.renterId\ \=\ renter.id;\r\n\ \ \ \ this.time\ \=\ time;\r\n\ \ \ \ this.busId\ \=\ busId;\r\n\ \ \ \ this.departureDate\ \=\ departureDate;\r\n\ \ \ \ this.busSeat\ \=\ busSeat;\r\n}
 comment2.params=id\ buyer\ renter\ time\ busId\ departureDate\ busSeat
 comment2.target=Payment(int,\ Account,\ Renter,\ java.lang.String,\ int,\ java.lang.String,\ java.lang.String)
 comment3.params=
-comment3.target=java.lang.String\ print()
+comment3.target=java.lang.String\ toString()
 comment4.params=
 comment4.target=int\ getBusId()
 numComments=5

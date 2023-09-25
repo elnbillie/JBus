@@ -12,17 +12,24 @@ public class Rating {
     private long total;
 
     public Rating(){
-        total = 0;
-        count = 0;
+        this.total = 0;
+        this.count = 0;
     }
     
     public void insert(int rating){
         this.total=this.total+rating;
-        this.count=this.count+1;
+        this.count++;
     }   
     
     public double getAverage(){
-        return this.total/this.count;
+        double rating;
+        
+        if(this.count == 0){
+            return 0;
+        }
+        
+        rating = this.total / this.count;
+        return rating;
     }
     
     public long getCount(){
@@ -31,5 +38,9 @@ public class Rating {
     
     public long getTotal(){
         return this.total;
+    }
+    
+    public String toString(){
+        return  "Count: " + count +" Total: " + total;
     }
 }

@@ -11,12 +11,16 @@ public class Price{
     public double rebate;
     public double price;
     
-    public Price (double rebate, double price){
+    public Price (double price, double rebate){
         this.rebate=rebate;
         this.price=price;
     }
     public Price(double price){
         this.price=price;
+    }
+    
+    public String toString() {
+        return "rebate=" + rebate + ", price=" + price;
     }
     
     
