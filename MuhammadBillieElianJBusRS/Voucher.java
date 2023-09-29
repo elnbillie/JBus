@@ -7,7 +7,7 @@ package MuhammadBillieElianJBusRS;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Voucher extends Serializable
+public class Voucher extends Serializable implements FileParser
 {
     public String name;
     private boolean used;
@@ -46,4 +46,15 @@ public class Voucher extends Serializable
             return false;
         }
     }
+    
+    @Override
+    public Object write() {
+        return this;  
+    }
+    
+    @Override
+    public boolean read(String input) {
+        return true;  
+    }
+
 }

@@ -1,6 +1,9 @@
 package MuhammadBillieElianJBusRS;
 
-public class Bus extends Serializable
+import java.util.*;
+import java.text.SimpleDateFormat;
+
+public class Bus extends Serializable implements FileParser
 {
     public int capacity;
     public Facility facility;
@@ -10,6 +13,7 @@ public class Bus extends Serializable
     public City city;
     public Station departure;
     public Station arrival;
+    public List<Schedule> schedules;
     
     public Bus(int id, String name, Facility facility, Price price, int capacity, BusType busType, City city, Station departure, Station arrival){
         super(id);
@@ -21,6 +25,17 @@ public class Bus extends Serializable
         this.city=city;
         this.departure=departure;
         this.arrival=arrival;
+        this.schedules=new ArrayList<>();
+    }
+    
+    @Override
+    public Object write() {
+        return this;  
+    }
+    
+    @Override
+    public boolean read(String input) {
+        return true;  
     }
     
     public String toString() {
@@ -34,5 +49,18 @@ public class Bus extends Serializable
            ", departure=" + departure +
            ", arrival=" + arrival ;
     }
-
+    
+    public void addSchedule(Calendar calendar) {
+        Schedule newSchedule = new Schedule(calendar, capacity);
+        schedules.add(newSchedule);
+    }
+    
+    public void printSchedule(Schedule schedule) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
+        System.out.println("Tanggal keberangkatan: " + sdf.format(schedule.departureSchedule.getTime()));
+        System.out.println("Daftar kursi dan ketersediaan kursinya:");
+        for (Map.Entry<String, Boolean> entry : schedule.seatAvailability.entrySet()) {
+            System.out.println("Seat: " + entry.getKey() + " - Available: " + entry.getValue());
+        }
+    }
 }
