@@ -2,6 +2,7 @@ package MuhammadBillieElianJBusRS;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 
 public class Bus extends Serializable implements FileParser
 {
@@ -50,17 +51,9 @@ public class Bus extends Serializable implements FileParser
            ", arrival=" + arrival ;
     }
     
-    public void addSchedule(Calendar calendar) {
-        Schedule newSchedule = new Schedule(calendar, capacity);
-        schedules.add(newSchedule);
+    public void addSchedule(Timestamp schedule) { 
+        schedules.add(new Schedule(schedule, this.capacity));
     }
     
-    public void printSchedule(Schedule schedule) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
-        System.out.println("Tanggal keberangkatan: " + sdf.format(schedule.departureSchedule.getTime()));
-        System.out.println("Daftar kursi dan ketersediaan kursinya:");
-        for (Map.Entry<String, Boolean> entry : schedule.seatAvailability.entrySet()) {
-            System.out.println("Seat: " + entry.getKey() + " - Available: " + entry.getValue());
-        }
-    }
+    
 }

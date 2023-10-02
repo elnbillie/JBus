@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Validate
 {
-    /*validate(){
-    }*/
+    public Validate(){
+    }
     
     public static ArrayList filter(Price[] list, int value, boolean less){
         ArrayList res = new ArrayList();
