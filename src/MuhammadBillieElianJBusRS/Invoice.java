@@ -21,7 +21,7 @@ public class Invoice extends Serializable
     }
     
     protected Invoice(int id, int buyerId, int renterId){
-    super(id);
+    super();
     this.buyerId=buyerId;
     this.renterId=renterId;
     this.time = new Timestamp(System.currentTimeMillis());
@@ -30,7 +30,7 @@ public class Invoice extends Serializable
     }
     
     public Invoice(int id, Account buyer, Renter renter){
-    super(id);    
+    super();
     this.buyerId = buyer.id;
     this.renterId = renter.id;
     this.time = new Timestamp(System.currentTimeMillis());

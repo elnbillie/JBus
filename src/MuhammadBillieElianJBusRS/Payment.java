@@ -24,9 +24,7 @@ public class Payment extends Invoice
         this.busSeat = busSeat;
     }
     
-    /*public String getDepartureInfo(){
-        return "busId : " + busId + " departureDate : " + departureDate.getTime() + " busSeat : " + busSeat ; 
-    }*/
+
     
     public String getDepartureInfo(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
