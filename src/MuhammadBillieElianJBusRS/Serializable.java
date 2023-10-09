@@ -11,7 +11,7 @@ public class Serializable
         if(mapCounter.containsKey(this.getClass())){
             mapCounter.put(this.getClass(), mapCounter.get(this.getClass()) + 1);
         }else{
-            mapCounter.put(this.getClass(),1);
+            mapCounter.put(this.getClass(),0);
         }
         this.id = mapCounter.get(this.getClass());
     }

@@ -24,14 +24,29 @@ public class Schedule
     }
       
     public boolean isSeatAvailable(String seat){
-        return seatAvailability.getOrDefault(seat, false);
+        return seatAvailability.containsKey(seat) && seatAvailability.get(seat);
     }
-    
+    public boolean isSeatAvailable(List<String> seats) {
+        for (String seat : seats) {
+            if (!isSeatAvailable(seat)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void bookSeat(String seat) {
         if (seatAvailability.containsKey(seat)) {
             seatAvailability.put(seat, false);
         }
     }
+
+    public void bookSeat(List<String> seats) {
+        for (String seat : seats) {
+            bookSeat(seat);
+        }
+    }
+
     
     public void printSchedule() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
@@ -51,4 +66,13 @@ public class Schedule
         }
         System.out.println("\n");
     }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String formattedDepartureSchedule = dateFormat.format(this.departureSchedule.getTime());
+        return "Schedule\t: " + formattedDepartureSchedule + "\nOccupied\t: " + Algorithm.count(seatAvailability.values(), false) + "/" + seatAvailability.size();
+    }
+
+
 }

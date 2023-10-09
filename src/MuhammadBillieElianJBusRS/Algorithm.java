@@ -8,6 +8,68 @@ public class Algorithm {
     private Algorithm(){
 
     }
+    public static <T> List<T> paginate(T[] array, int page, int pageSize, Predicate<T> predicate) {
+        if (array == null || predicate == null || page < 0 || pageSize < 1) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+        List<T> res = new ArrayList<>();
+        for (int i = (page * pageSize); i < (Math.min(page * pageSize + pageSize, array.length)); i++) {
+            if (predicate.predicate(array[i])) {
+                res.add(array[i]);
+            }
+        }
+        return res;
+    }
+
+
+    public static <T> List<T> paginate(Iterable<T> iterable, int page, int pageSize, Predicate<T> predicate) {
+        if (iterable == null || predicate == null || page < 0 || pageSize < 1) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+        List<T> res = new ArrayList<>();
+        int index = 0;
+        int start = page * pageSize;
+        int count = 0;
+        for (T item : iterable) {
+            if (index++ < start){
+                continue;
+            }
+            if (count >= pageSize){
+                break;
+            }
+            if (predicate.predicate(item)) {
+                res.add(item);
+                count++;
+            }
+        }
+        return res;
+    }
+
+    public static <T> List<T> paginate(Iterator<T> iterator, int page, int pageSize, Predicate<T> predicate) {
+        if (iterator == null || predicate == null || page < 0 || pageSize < 1) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+
+        List<T> res = new ArrayList<>();
+        int index = 0;
+        int start = page * pageSize;
+        int count = 0;
+
+        while (iterator.hasNext()) {
+            T item = iterator.next();
+            if (index++ < start) {
+                continue;
+            }
+            if (count >= pageSize){
+                break;
+            }
+            if (predicate.predicate(item)) {
+                res.add(item);
+                count++;
+            }
+        }
+        return res;
+    }
 
     public static <T> boolean exists(T[] array, T value){
         final Iterator<T> it = Arrays.stream(array).iterator();
@@ -37,7 +99,7 @@ public class Algorithm {
     public static <T> boolean exists(Iterator<T> iterator, Predicate<T> pred){
         while(iterator.hasNext()){
             T current = iterator.next();
-            if(pred.Predicate(current))
+            if(pred.predicate(current))
                 return true;
         }
         return false;
@@ -47,7 +109,7 @@ public class Algorithm {
     public static <T> List<T> collect(Iterable<T> iterable, Predicate<T>pred){
         List<T> resultList = new ArrayList<>();
         for (T item : iterable) {
-            if (pred.Predicate(item)) {
+            if (pred.predicate(item)) {
                 resultList.add(item);
             }
         }
@@ -78,7 +140,7 @@ public class Algorithm {
         List<T> resultList = new ArrayList<>();
         while (iterator.hasNext()) {
             T current = iterator.next();
-            if (pred.Predicate(current)) {
+            if (pred.predicate(current)) {
                 resultList.add(current);
             }
         }
@@ -98,7 +160,7 @@ public class Algorithm {
     public static <T> int count(Iterator<T> iterator, Predicate<T> pred){
         int count = 0;
         while (iterator.hasNext()) {
-            if (pred.Predicate(iterator.next())) { //masih diragukan
+            if (pred.predicate(iterator.next())) {
                 count++;
             }
         }
@@ -110,15 +172,21 @@ public class Algorithm {
         return count(it, pred);
     }
 
-    public static <T> int count(Iterable<T> iterator, T value){
-        final Predicate<T> pred = value::equals;
-        return count(iterator, pred);
+    public static <T> int count(Iterable<T> iterable, T value){
+        int count = 0;
+        for (T item : iterable) {
+            if (item.equals(value)) {
+                count++;
+            }
+        }
+        return count;
     }
+
 
     public static <T> int count(Iterable<T> iterable, Predicate<T> pred){
         int count = 0;
         for (T item : iterable) {
-            if (pred.Predicate(item)) { //masih diragukannnnnnnn
+            if (pred.predicate(item)) { //masih diragukannnnnnnn
                 count++;
             }
         }
@@ -127,7 +195,7 @@ public class Algorithm {
 
     public static <T> T find(Iterable<T> iterable, Predicate<T> pred){
         for (T item : iterable) {
-            if (pred.Predicate(item)) {
+            if (pred.predicate(item)) {
                 return item;
             }
         }
@@ -140,7 +208,7 @@ public class Algorithm {
     }
 
     public static <T> T find(T[] array, Predicate<T> pred){
-        return Arrays.stream(array).filter(item -> pred.Predicate(item)).findFirst().orElse(null);
+        return Arrays.stream(array).filter(item -> pred.predicate(item)).findFirst().orElse(null);
     }
 
     public static <T> T find(Iterator<T> iterator, T value){
@@ -156,10 +224,11 @@ public class Algorithm {
     public static <T> T find(Iterator<T> iterator, Predicate<T> pred){
         while (iterator.hasNext()) {
             T current = iterator.next();
-            if (pred.Predicate(current)) {
+            if (pred.predicate(current)) {
                 return current;
             }
         }
         return null;
     }
 }
+
