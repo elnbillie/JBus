@@ -2,7 +2,7 @@ package MuhammadBillieElianJBusRS;
 
 
 
-public class Account extends Serializable implements FileParser{
+public class Account extends Serializable {
     
     public String email;
     public String name;
@@ -15,15 +15,7 @@ public class Account extends Serializable implements FileParser{
         this.password=password;
     }
     
-    @Override
-    public Object write() {
-        return this;  
-    }
-    
-    @Override
-    public boolean read(String input) {
-        return true;  
-    }
+
     
     public String toString() {
         return "id=" + super.id +", name=" + name + ", email=" + email +", password=" + password ;

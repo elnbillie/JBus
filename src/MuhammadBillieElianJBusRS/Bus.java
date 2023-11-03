@@ -4,7 +4,7 @@ import java.util.*;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 
-public class Bus extends Serializable implements FileParser
+public class Bus extends Serializable
 {
     public int capacity;
     public Facility facility;
@@ -29,30 +29,34 @@ public class Bus extends Serializable implements FileParser
         this.schedules=new ArrayList<>();
     }
     
-    @Override
-    public Object write() {
-        return this;  
-    }
-    
-    @Override
-    public boolean read(String input) {
-        return true;  
-    }
+
     
     public String toString() {
-        return "id=" + super.id +
-           ", name=" + name + 
-           ", facility=" + facility +
-           ", price=" + price + 
-           ", capacity=" + capacity +
-           ", busType=" + busType +
-           ", city=" + city +
-           ", departure=" + departure +
-           ", arrival=" + arrival ;
+        return "Bus Id : " + super.id + "\n" +
+           "Nama Bus : " + name + "\n" +
+                "Berangkat : " + departure.city + "\n" +
+                "Tujuan : " + arrival.city + "\n" +
+                "Harga : " + price.price + "\n" +
+                "fasilitas : " + facility + "\n" +
+           "kapasitas : " + capacity + "\n" +
+           "Tipe Bus : " + busType + "\n" +
+           "Kota : " + city + "\n" ;
+
     }
     
     public void addSchedule(Timestamp schedule) { 
-        schedules.add(new Schedule(schedule, this.capacity));
+        //schedules.add(new Schedule(schedule, this.capacity));
+        //throw new IllegalArgumentException("Schedule with the same timestamp already exists.");
+        try {
+            for(Schedule existSchedule: this.schedules){
+                if(existSchedule.departureSchedule.equals(schedule)){
+                    return;
+                }
+            }
+            this.schedules.add(new Schedule(schedule, this.capacity));
+        } catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
     }
     
     
