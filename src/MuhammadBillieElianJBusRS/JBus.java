@@ -18,18 +18,61 @@ import java.io.IOException;
 import java.util.List;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import java.sql.Timestamp;
 
 
 public class JBus {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        String filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\data\\accountDatabase.json";
+
         try {
-            String filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\data\\buses_CS.json";
+            JsonTable<Account> tableAccount = new JsonTable<>(Account.class, filepath);
+
+            Account newAccount = new Account( "Dio", "dio@gmail.com", "NgikNgok");
+
+            tableAccount.add(newAccount);
+
+            tableAccount.writeJson();
+
+            System.out.println(newAccount);
+        } catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("An exception was caught: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        Bus bus = createBus();
+        bus.schedules.forEach(Schedule::printSchedule);
+        for (int i = 0; i < 10; i++) {
+            BookingThread thread = new BookingThread("Thread " + i, bus,
+                    Timestamp.valueOf("2023-07-27 19:00:00"));
+        }
+        Thread.sleep(1000);
+        bus.schedules.forEach(Schedule::printSchedule);
+
+    }
+
+    public static Bus createBus() {
+        Price price = new Price(750000, 5);
+        Bus bus = new Bus("Netlab Bus", Facility.LUNCH, price, 25, BusType.REGULER, City.BANDUNG, new Station("Depok Terminal", City.DEPOK, "Jl. Margonda Raya"), new Station("Halte UI", City.JAKARTA, "Universitas Indonesia"));
+        Timestamp timestamp = Timestamp.valueOf("2023-07-27 19:00:00");
+        bus.addSchedule(timestamp);
+        return bus;
+    }
+}
+
+
+/*
+try {
+            String filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\data\\accountDatabase.json";
             JsonTable<Bus> busList = new JsonTable<>(Bus.class,filepath);
             //List<Bus> filteredBus= filterByDepartureAndArrival(busList, City.JAKARTA, 0, 3);
             //List<Bus> filteredBus= filterByPrice(busList, 100000,500000);
-            List<Bus> filteredBus= filterBusId(busList, 155);
+            //List<Bus> filteredBus= filterBusId(busList, 155);
             //List<Bus> filteredBus= filterByDepartureAndArrival(busList, City.JAKARTA, City.SURABAYA, 0, 3);
-            filteredBus.forEach(bus -> System.out.println(bus.toString()));
+            //filteredBus.forEach(bus -> System.out.println(bus.toString()));
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -59,9 +102,7 @@ public class JBus {
     public static List<Bus> filterByDepartureAndArrival(List<Bus> buses, City departure, City arrival, int page, int pageSize){
         return Algorithm.paginate(buses, page, pageSize, b -> b.departure.city.equals(departure) && b.arrival.city.equals(arrival));
     }
-
-}
-
+*/
 
 
 

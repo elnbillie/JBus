@@ -2,44 +2,34 @@ package MuhammadBillieElianJBusRS;
 
 import java.util.HashMap;
 
-public class Serializable
-{
+public class Serializable {
     public final int id;
-    private static HashMap<Class<?>,Integer> mapCounter = new HashMap<>();
-    
+    private static HashMap<Class<?>, Integer> mapCounter = new HashMap<Class <?>, Integer>();
     protected Serializable(){
-        if(mapCounter.containsKey(this.getClass())){
-            mapCounter.put(this.getClass(), mapCounter.get(this.getClass()) + 1);
-        }else{
-            mapCounter.put(this.getClass(),0);
-        }
-        this.id = mapCounter.get(this.getClass());
+        Integer counter = mapCounter.get(getClass());
+        counter = counter == null ? 0 : counter + 1;
+        mapCounter.put(getClass(), counter);
+        this.id = counter;
     }
 
-    public static Integer getLastAssignedId(Class<?>key){
-        return mapCounter.getOrDefault(key,0);
+    public static <T> Integer getLastAssignedId(Class<T> getter ){
+        return mapCounter.get(getter);
     }
 
-    public static Integer setLastAssignedId(Class<?>key, int value){
-        mapCounter.put(key,value);
-        return value;
+    public static <T> Integer setLastAssignedId(Class<T> setter, int number){
+        return mapCounter.put(setter, number);
     }
 
-
-    public int compareTo(Serializable o){
-        return Integer.compare(this.id, o.id);
+    public int compareTo(Serializable temp){
+        return ((Integer)this.id).compareTo(temp.id);
     }
 
-
-    public boolean equals(Object obj) {
-        if (obj instanceof Serializable) {
-            Serializable serialObj = (Serializable) obj;
-            return this.id == serialObj.id;
-        }
-        return false;
+    public boolean equals(Serializable temp){
+        return temp.id == this.id;
     }
 
-    public boolean equals(Serializable o) {
-        return this.id == o.id;
+    public boolean equals(Object object){
+        return object instanceof Serializable && ((Serializable) object).id == this.id;
     }
+
 }
