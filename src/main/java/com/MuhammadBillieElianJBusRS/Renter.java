@@ -1,5 +1,7 @@
 package com.MuhammadBillieElianJBusRS;
 
+import com.MuhammadBillieElianJBusRS.dbjson.Serializable;
+
 public class Renter extends Serializable {
 
     private static final String REGEX_PHONE = "^\\d{9,12}$";

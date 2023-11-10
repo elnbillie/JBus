@@ -1,6 +1,8 @@
 package com.MuhammadBillieElianJBusRS;
 
 
+import com.MuhammadBillieElianJBusRS.dbjson.Serializable;
+
 /**
  * Write a description of class Voucher here.
  *

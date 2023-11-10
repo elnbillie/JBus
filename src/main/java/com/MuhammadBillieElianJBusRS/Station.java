@@ -1,6 +1,7 @@
 package com.MuhammadBillieElianJBusRS;
 
 
+import com.MuhammadBillieElianJBusRS.dbjson.Serializable;
 
 public class Station extends Serializable
 {

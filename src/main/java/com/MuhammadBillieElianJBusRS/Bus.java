@@ -1,7 +1,8 @@
 package com.MuhammadBillieElianJBusRS;
 
+import com.MuhammadBillieElianJBusRS.dbjson.Serializable;
+
 import java.util.*;
-import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 
 public class Bus extends Serializable

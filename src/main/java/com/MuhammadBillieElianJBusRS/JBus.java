@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+
+import com.MuhammadBillieElianJBusRS.dbjson.JsonDBEngine;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.sql.Timestamp;
@@ -24,8 +26,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class JBus {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        JsonDBEngine.Run(JBus.class);
         SpringApplication.run(JBus.class, args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> JsonDBEngine.join()));
     }
 }
 
