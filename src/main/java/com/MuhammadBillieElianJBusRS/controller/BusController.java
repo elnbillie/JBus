@@ -46,7 +46,7 @@ public class BusController implements BasicGetController<Bus>{
         Account account = Algorithm.<Account>find(AccountController.accountTable, pred-> pred.id == accountId);
         Station stationDeparture = Algorithm.<Station>find(StationController.stationTable, pred -> pred.id == stationDepartureId);
         Station stationArrival = Algorithm.<Station>find(StationController.stationTable, pred -> pred.id == stationArrivalId);
-        AccountController ac = new AccountController();
+
 
         if(account == null){
             return new BaseResponse<>(false, "Akun tidak dapat ditemukan", null);

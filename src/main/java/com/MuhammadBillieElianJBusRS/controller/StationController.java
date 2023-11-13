@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/station")
 public class StationController implements BasicGetController<Station> {
-    public static @JsonAutowired(value = Station.class, filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\station.json") JsonTable<Station> stationTable;
+    public static @JsonAutowired(value = Station.class, filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\station.json") JsonTable<Station> stationTable;
     @Override
     public JsonTable<Station> getJsonTable() {
         return stationTable;
