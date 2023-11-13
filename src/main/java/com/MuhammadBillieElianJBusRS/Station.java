@@ -17,6 +17,6 @@ public class Station extends Serializable
     }
     
     public String toString(){
-    return "Id : " + super.id + " City : " + city + " Station Name : " + stationName + " adress" + address;
+    return "Id : " + id + " City : " + city + " Station Name : " + stationName + " adress" + address;
     }
 }

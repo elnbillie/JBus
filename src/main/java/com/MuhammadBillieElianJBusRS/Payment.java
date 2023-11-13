@@ -5,32 +5,31 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-//modul 3 ngubah print ke toString
 public class Payment extends Invoice
 {
     private int busId;
     public Timestamp departureDate;
-    public String busSeat;
-        
-    public Payment(int id, int buyerId, int renterId, int busId, String busSeat, Timestamp departureDate) {
+    public List<String> busSeats;
+
+    public Payment(int id, int buyerId, int renterId, int busId, List<String> busSeat, Timestamp departureDate){
         super(id, buyerId, renterId);
         this.busId = busId;
-        this.departureDate = new Timestamp(departureDate.getTime() + 2 * 24 * 60 * 60 * 1000); 
-        this.busSeat = busSeat;
+        this.departureDate = new Timestamp(departureDate.getTime());
+        this.busSeats = busSeat;
     }
     
-    public Payment(int id, Account buyer, Renter renter, int busId, String busSeat, Timestamp departureDate) {
+    public Payment(int id, Account buyer, Renter renter, int busId, List<String> busSeats, Timestamp departureDate) {
         super(id, buyer, renter);
         this.busId = busId;
         this.departureDate = new Timestamp(departureDate.getTime() + 2 * 24 * 60 * 60 * 1000); 
-        this.busSeat = busSeat;
+        this.busSeats = busSeats;
     }
     
 
     
     public String getDepartureInfo(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
-        return  super.toString() + " Bus ID: " + busId + " Departure Date: " + sdf.format(departureDate.getTime()) +" Bus Seat: " + busSeat;
+        return  super.toString() + " Bus ID: " + busId + " Departure Date: " + sdf.format(departureDate.getTime()) +" Bus Seat: " + busSeats;
     }
     
     public int getBusId(){
