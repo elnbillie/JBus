@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import com.MuhammadBillieElianJBusRS.Renter;
 
 @RestController
-@RequestMapping("/makeBooking")
+@RequestMapping("/payment")
 public class PaymentController implements BasicGetController<Payment>{
 
     public static @JsonAutowired(value = Payment.class, filepath = "\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\payment.json") JsonTable<Payment> paymentTable;

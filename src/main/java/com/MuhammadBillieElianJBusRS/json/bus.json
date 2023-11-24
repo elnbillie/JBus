@@ -1,1 +1,1 @@
-[{"capacity":40,"facilities":["AC"],"name":"John Doe","price":{"rebate":0.0,"price":20000.0},"busType":"REGULER","schedules":[],"accountId":0,"id":1},{"capacity":40,"facilities":["AC"],"name":"John Doe","price":{"rebate":0.0,"price":20000.0},"busType":"REGULER","departure":{"city":"JAKARTA","stationName":"Terminal Manggarai","address":"RT.2/RW.8, Pasar Manggis, Kota Jakarta Selatan","id":1},"arrival":{"city":"DEPOK","stationName":"Terminal Jatijajar","address":"Jl. Jatijajar 1 No.04, Jatijajar, Kec. Tapos, Jawa Barat","id":0},"schedules":[],"accountId":0,"id":2}]
+[]
