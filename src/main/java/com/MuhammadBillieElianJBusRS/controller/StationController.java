@@ -9,16 +9,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller untuk mengelola operasi yang berkaitan dengan stasiun.
+ * Menyediakan fungsi untuk membuat dan mendapatkan informasi stasiun.
+ */
 @RestController
 @RequestMapping("/station")
 public class StationController implements BasicGetController<Station> {
     public static @JsonAutowired(value = Station.class, filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\station.json") JsonTable<Station> stationTable;
+    /**
+     * Mengembalikan JsonTable yang berisi stasiun.
+     *
+     * @return JsonTable yang berisi stasiun.
+     */
     @Override
     public JsonTable<Station> getJsonTable() {
         return stationTable;
     }
-
-    //Add new Station
+    /**
+     * Membuat stasiun baru.
+     *
+     * @param stationName Nama stasiun.
+     * @param city Nama kota tempat stasiun berada.
+     * @param address Alamat stasiun.
+     * @return BaseResponse yang berisi status dan informasi stasiun yang dibuat.
+     */
     @PostMapping("/create")
     public BaseResponse<Station> createStation(
             @RequestParam String stationName,
@@ -50,7 +65,11 @@ public class StationController implements BasicGetController<Station> {
             return new BaseResponse<>(false, "An error occurred while adding the station", null);
         }
     }
-
+    /**
+     * Mendapatkan semua stasiun.
+     *
+     * @return Daftar semua stasiun yang ada.
+     */
     @GetMapping("/getAll")
     public List<Station> getAllStation() { return getJsonTable();}
 }

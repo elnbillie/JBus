@@ -18,6 +18,14 @@ public class JsonTable<T> extends Vector<T> {
     private static final Gson gson = new Gson();
     public final String filepath;
 
+    /**
+     * Konstruktor untuk membuat objek JsonTable.
+     *
+     * @param clazz Class dari tipe data T.
+     * @param filepath Lokasi file JSON yang akan dibaca atau ditulis.
+     * @throws IOException Jika terjadi kesalahan dalam pembacaan atau pembuatan file.
+     */
+
     @SuppressWarnings("unchecked")
     public JsonTable(Class<T> clazz, String filepath) throws IOException {
         this.filepath = filepath;
@@ -47,19 +55,36 @@ public class JsonTable<T> extends Vector<T> {
         }
     }
 
-
+    /**
+     * Menulis data dari JsonTable ke file JSON.
+     *
+     * @throws IOException Jika terjadi kesalahan dalam penulisan file.
+     */
     public void writeJson() throws IOException
     {
         writeJson(this, this.filepath);
     }
-
+    /**
+     * Menulis objek ke file JSON.
+     *
+     * @param object Objek yang akan ditulis ke file JSON.
+     * @param filepath Lokasi file JSON tempat objek akan ditulis.
+     * @throws IOException Jika terjadi kesalahan dalam penulisan file.
+     */
     public static void writeJson(Object object, String filepath) throws IOException
     {
         final FileWriter writer = new FileWriter(filepath);
         writer.write(gson.toJson(object));
         writer.close();
     }
-
+    /**
+     * Membaca data dari file JSON dan mengembalikan objek dari tipe data T.
+     *
+     * @param clazz Class dari tipe data T.
+     * @param filepath Lokasi file JSON yang akan dibaca.
+     * @return Objek dari tipe data T yang dibaca dari file JSON.
+     * @throws FileNotFoundException Jika file JSON tidak ditemukan.
+     */
     public static <T> T readJson(Class<T> clazz, String filepath) throws FileNotFoundException
     {
         final JsonReader reader = new JsonReader(new FileReader(filepath));

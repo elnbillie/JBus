@@ -4,72 +4,47 @@ package com.MuhammadBillieElianJBusRS;
 /**
  * Write a description of class Price here.
  *
- * @author (your name)
+ * @author Muhammad Billie ELian
  * @version (a version number or a date)
+ */
+
+/**
+ * Kelas yang merepresentasikan harga dan potongan harga (rebate) untuk suatu item atau layanan.
  */
 public class Price{
     public double rebate;
     public double price;
-    
+
+    /**
+     * Membuat objek Price dengan harga dan potongan harga yang ditentukan.
+     *
+     * @param price Harga asli item atau layanan.
+     * @param rebate Potongan harga yang akan diterapkan.
+     */
+
+
     public Price (double price, double rebate){
         this.rebate=rebate;
         this.price=price;
     }
+    /**
+     * Membuat objek Price tanpa potongan harga.
+     *
+     * @param price Harga asli item atau layanan.
+     */
     public Price(double price){
         this.price=price;
     }
-    
+
+
+    /**
+     * Mengembalikan representasi string dari objek Price.
+     *
+     * @return Representasi string yang menggambarkan harga dan potongan harga.
+     */
     public String toString() {
         return "rebate=" + rebate + ", price=" + price;
     }
     
-    
-    
-    
-    
-    
-    //int discount;
-    
 
-    /*public Price(double price){
-        this.price = price;
-        this.discount = 0;
-        this.rebate = 0;
-    }
-
-    public Price(double price, int discount){
-        this.price = price;
-        this.discount = discount;
-        this.rebate = 0;
-    }
-    
-    public Price(double price, double rebate){
-        this.price = price;
-        this.discount = 0;
-        this.rebate = rebate;
-    }
-    
-    private double getDiscountedPrice(){
-        if(discount>100.0){
-            return 0.0;
-        }else if(discount==100.0){
-            return 0.0;
-        }else{
-            price=price-(price*discount);
-            return price;
-            //temp_disc=(int)this.price-((int)this.price*this.discount);
-            //return temp_disc;
-        }
-    }
-    
-    private double getRebatedPrice(){
-        //double temp_rebate;
-        //temp_rebate=this.price-this.rebate;
-        price=price-rebate;
-        if (rebate>price){
-            return 0;
-        }else{
-            return price;
-        }
-    }*/
 }

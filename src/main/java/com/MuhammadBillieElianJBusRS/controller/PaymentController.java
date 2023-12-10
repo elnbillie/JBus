@@ -1,95 +1,160 @@
 package com.MuhammadBillieElianJBusRS.controller;
 
-import com.MuhammadBillieElianJBusRS.Price;
-import com.MuhammadBillieElianJBusRS.Account;
-import com.MuhammadBillieElianJBusRS.Bus;
-import com.MuhammadBillieElianJBusRS.Payment;
+import com.MuhammadBillieElianJBusRS.*;
 import com.MuhammadBillieElianJBusRS.dbjson.JsonAutowired;
 import com.MuhammadBillieElianJBusRS.dbjson.JsonTable;
 import org.springframework.web.bind.annotation.*;
-import com.MuhammadBillieElianJBusRS.Algorithm;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.text.SimpleDateFormat;
-import com.MuhammadBillieElianJBusRS.Renter;
 
+/**
+ * Controller untuk mengelola operasi yang berkaitan dengan pembayaran.
+ * Menyediakan fungsi untuk membuat pemesanan, menerima, dan membatalkan pembayaran.
+ */
 @RestController
 @RequestMapping("/payment")
 public class PaymentController implements BasicGetController<Payment>{
 
-    public static @JsonAutowired(value = Payment.class, filepath = "\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\payment.json") JsonTable<Payment> paymentTable;
+    @JsonAutowired(value = Payment.class, filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\payment.json")
+    public static JsonTable<Payment> paymentTable;
+    /**
+     * Mengembalikan JsonTable yang berisi pembayaran.
+     *
+     * @return JsonTable yang berisi pembayaran.
+     */
     @Override
     public JsonTable<Payment> getJsonTable() {
-        return paymentTable;
+        return PaymentController.paymentTable;
     }
-    @RequestMapping(value="/makeBooking",method= RequestMethod.POST)
+    /**
+     * Melakukan pemesanan.
+     *
+     * @param buyerId ID pembeli.
+     * @param renterId ID penyewa.
+     * @param busId ID bus.
+     * @param busSeats Daftar kursi yang dipesan.
+     * @param departureDate Tanggal keberangkatan.
+     * @return BaseResponse yang berisi status dan informasi pembayaran.
+     */
+    @RequestMapping(value="/makeBooking", method= RequestMethod.POST)
     public BaseResponse<Payment> makeBooking(
             @RequestParam int buyerId,
             @RequestParam int renterId,
             @RequestParam int busId,
             @RequestParam List<String> busSeats,
             @RequestParam String departureDate
-
-    ){
-        Account buyer = Algorithm.<Account>find(AccountController.accountTable, pred-> pred.id == buyerId);
-        Bus bus = Algorithm.<Bus>find(BusController.busTable, pred-> pred.id == busId);
-        Account renterAccount = Algorithm.<Account>find(AccountController.accountTable, pred-> pred.id == renterId);
-        Renter renter = renterAccount.company;
-
+    )
+    {
+        Account buyer = Algorithm.<Account>find(new AccountController().getJsonTable(), t->t.id == buyerId);
+        Bus bus = Algorithm.<Bus>find(new BusController().getJsonTable(), t->t.id == busId);
 
         if (buyer == null || bus == null) {
-            return new BaseResponse<>(false, "Buyer or Bus cannot be null", null);
+            return new BaseResponse<>(false, "Pembeli atau Bus tidak ditemukan", null);
         }
 
-        if (bus.price.price > buyer.balance) {
-            return new BaseResponse<>(false, "Insufficient balance", null);
+        if (buyer.balance < (bus.price.price * busSeats.size())) {
+            return new BaseResponse<>(false, "Balance kurang", null);
         }
 
-        // Check if there is a schedule for the given departure date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy HH:mm:ss");
-        java.sql.Timestamp departureTimestamp;
+        Timestamp departureTimestamp;
         try {
-            departureTimestamp = java.sql.Timestamp.valueOf(departureDate);
-        } catch (IllegalArgumentException e) {
-            return new BaseResponse<>(false, "Invalid departure date format", null);
+            departureTimestamp = Timestamp.valueOf(LocalDateTime.parse(departureDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        } catch (DateTimeParseException e) {
+            return new BaseResponse<>(false, "Invalid", null);
         }
 
         boolean bookingMade = Payment.makeBooking(departureTimestamp, busSeats, bus);
         if (!bookingMade) {
-            return new BaseResponse<>(false, "Booking failed", null);
+            return new BaseResponse<>(false, "Booking Suceed", null);
         }
 
-        buyer.balance -= bus.price.price;
+        buyer.balance -= (bus.price.price * busSeats.size());
 
-        Payment payment = new Payment(buyerId, buyer, renter, busId, busSeats, departureTimestamp);
+        Payment payment = new Payment(buyerId, renterId, busId, busSeats, departureTimestamp);
         payment.status = Payment.PaymentStatus.WAITING;
         paymentTable.add(payment);
 
         return new BaseResponse<>(true, "Booking Suceed", payment);
     }
+    /**
+     * Menerima pembayaran.
+     *
+     * @param id ID pembayaran.
+     * @return BaseResponse yang berisi status dan informasi pembayaran yang diterima.
+     */
 
     @RequestMapping(value="/{id}/accept", method=RequestMethod.POST)
     public BaseResponse<Payment> accept(@PathVariable int id){
         Payment payment = Algorithm.<Payment>find(paymentTable, p -> p.id == id);
+        Account renter = Algorithm.<Account>find(new AccountController().getJsonTable(), t->t.id == payment.renterId);
+        Bus bus = Algorithm.<Bus>find(BusController.busTable, b -> b.id == payment.getBusId());
+
         if (payment == null) {
-            return new BaseResponse<>(false, "Payment can't be found", null);
+            return new BaseResponse<>(false, "Payment tidak ditemukan", null);
         }
+
         if (payment.status != Payment.PaymentStatus.WAITING) {
-            return new BaseResponse<>(false, "Status payment isn't waiting", null);
+            return new BaseResponse<>(false, "Status payment bukan waiting", null);
         }
+
+        renter.balance += (payment.busSeats.size() * bus.price.price);
         payment.status = Payment.PaymentStatus.SUCCESS;
+
         return new BaseResponse<>(true, "Payment accepted successfully", payment);
     }
-
+    /**
+     * Membatalkan pembayaran.
+     *
+     * @param id ID pembayaran.
+     * @return BaseResponse yang berisi status dan informasi pembayaran yang dibatalkan.
+     */
     @RequestMapping(value="/{id}/cancel", method=RequestMethod.POST)
-    public BaseResponse<Payment> cancel(@PathVariable int id) {
+    public BaseResponse<Payment> cancel(@PathVariable int id){
         Payment payment = Algorithm.<Payment>find(paymentTable, p -> p.id == id);
+        Account buyer = Algorithm.<Account>find(AccountController.accountTable, a -> a.id == payment.buyerId);
+        Bus bus = Algorithm.<Bus>find(BusController.busTable, b -> b.id == payment.getBusId());
+
         if (payment == null) {
-            return new BaseResponse<>(false, "Payment isn't found", null);
+            return new BaseResponse<>(false, "Payment tidak ditemukan", null);
         }
+
         if (payment.status != Payment.PaymentStatus.WAITING) {
-            return new BaseResponse<>(false, "Payment status isn't waiting", null);
+            return new BaseResponse<>(false, "Status payment bukan waiting", null);
         }
+
         payment.status = Payment.PaymentStatus.FAILED;
-        return new BaseResponse<>(true, "Payment has been canceled", payment);
+        buyer.balance += (bus.price.price * payment.busSeats.size());
+
+        Schedule scheduleToCancel = Algorithm.<Schedule>find(bus.schedules, s -> s.departureSchedule.equals(payment.departureDate));
+        if (scheduleToCancel != null) {
+            for(String seat : payment.busSeats){
+                scheduleToCancel.seatAvailability.put(seat, true);
+            }
+        }
+
+        return new BaseResponse<>(true, "Payment telah di cancel", payment);
+    }
+
+    @GetMapping("/getRenterPayment")
+    public List<Payment> getRenterPayment(@RequestParam int renterId
+    ) {
+        return Algorithm.<Payment>collect(getJsonTable(), b->b.renterId == renterId);
+    }
+
+    /**
+     * mengembalikan nilai payment
+     *
+     * @param accountId ID dari akun.
+     * @return List dari payment
+     */
+    @GetMapping("/getAccountPayment")
+    public List<Payment> getBuyerPayment(@RequestParam int accountId
+    ) {
+        return Algorithm.<Payment>collect(getJsonTable(), b->b.buyerId == accountId);
     }
 }

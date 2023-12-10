@@ -4,8 +4,7 @@ package com.MuhammadBillieElianJBusRS;
 /**
  * Enumeration class Facility - write a description of the enum class here
  *
- * @author (your name here)
- * @version (version number or date here)
+ * @author Muhammad Billie Elian
  */
 public enum Facility{
         AC,

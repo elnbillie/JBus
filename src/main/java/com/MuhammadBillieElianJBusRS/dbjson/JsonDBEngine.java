@@ -112,6 +112,10 @@ public class JsonDBEngine
 		}
 	}
 
+	/**
+	 * Metode yang dipanggil sebelum hancurnya objek.
+	 * Menyimpan semua perubahan ke penyimpanan dan menutup thread autosaver.
+	 */
 	@PreDestroy
 	public static void join()
 	{

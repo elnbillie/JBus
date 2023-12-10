@@ -19,13 +19,34 @@ public class AccountController implements BasicGetController<Account>
 {
     @JsonAutowired(value = Account.class, filepath = "D:\\Kuliah\\Semester 3\\OOP\\JBus\\JBus\\src\\main\\java\\com\\MuhammadBillieElianJBusRS\\json\\account_db.json")
     public static JsonTable<Account> accountTable;
+
+    /**
+     * Mengembalikan JsonTable untuk Akun.
+     *
+     * @return JsonTable yang berisi akun-akun.
+     */
     public JsonTable<Account> getJsonTable() {
         return accountTable;
     }
 
+
+    /**
+     * Menampilkan halaman index untuk Account.
+     *
+     * @return String yang menunjukkan halaman account.
+     */
     @GetMapping
     String index() { return "account page"; }
 
+
+    /**
+     * Melakukan registrasi akun baru.
+     *
+     * @param name Nama pengguna.
+     * @param email Email pengguna.
+     * @param password Password pengguna.
+     * @return BaseResponse yang berisi status dan informasi akun yang terdaftar.
+     */
     @PostMapping("/register")
     BaseResponse<Account> register
             (
@@ -70,6 +91,13 @@ public class AccountController implements BasicGetController<Account>
 
     }
 
+    /**
+     * Melakukan proses login.
+     *
+     * @param email Email pengguna.
+     * @param password Password pengguna.
+     * @return BaseResponse yang berisi status dan informasi akun jika login berhasil.
+     */
     @PostMapping("/login")
     BaseResponse<Account> login (@RequestParam String email,
                                  @RequestParam String password) {
@@ -103,6 +131,15 @@ public class AccountController implements BasicGetController<Account>
         return new BaseResponse<>(false, "Gagal login ngab", null);
     }
 
+    /**
+     * Registrasi penyewa (Renter) untuk akun tertentu.
+     *
+     * @param id ID akun yang akan didaftarkan sebagai penyewa.
+     * @param companyName Nama perusahaan penyewa.
+     * @param address Alamat penyewa.
+     * @param phoneNumber Nomor telepon penyewa.
+     * @return BaseResponse yang berisi status dan informasi renter jika registrasi berhasil.
+     */
     @PostMapping ("/{id}/registerRenter")
     BaseResponse<Renter> registerRenter (@PathVariable int id,
                                          @RequestParam String companyName,
@@ -118,6 +155,13 @@ public class AccountController implements BasicGetController<Account>
         return new BaseResponse<>(false, "Gagal register renter", null);
     }
 
+    /**
+     * Menambahkan saldo ke akun tertentu.
+     *
+     * @param id ID akun yang akan ditambahkan saldo.
+     * @param amount Jumlah saldo yang akan ditambahkan.
+     * @return BaseResponse yang berisi status dan jumlah saldo yang ditambahkan jika berhasil.
+     */
     @PostMapping("/{id}/topUp")
     BaseResponse<Double> topUp(@PathVariable int id, @RequestParam double amount)
     {
